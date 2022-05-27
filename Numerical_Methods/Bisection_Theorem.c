@@ -56,25 +56,28 @@ int main()
 
 float interval(int coefficient[], int degree, float *start, float *end)
 {
-    int solution[11], sum;
+    int sum, index;
 
-    // Calculation of the solutions of polynomials between -5 and 5
-    for (int i = (-5); i <= 5; i++)
+    printf("Enter the value of extremes to check(Note that the first interval with the solution will be applied):");
+    scanf("%d", &index);
+    int solution[(2 * index) + 1];
+    // Calculation of the solutions of polynomials between -index and index
+    for (int i = (-index); i <= index; i++)
     {
         sum = 0;
         for (int j = degree; j >= 0; j--)
         {
             sum += (coefficient[j] * (pow(i, j)));
         }
-        solution[i + 5] = sum;
+        solution[i + index] = sum;
     }
 
-    for (int i = 0; i < 11; i++)
+    for (int i = 0; i < (2 * index) + 1; i++)
     {
         if (solution[i] * solution[i + 1] < 0)
         {
-            *start = (i - 5);
-            *end = (i - 4);
+            *start = (i - 10);
+            *end = (i - 9);
 
             // Returns a value for switcher
             if (solution[i] < 0)
@@ -92,7 +95,7 @@ float interval(int coefficient[], int degree, float *start, float *end)
 
 int bisection(int coefficient[], int degree, float start, float end, float switcher)
 {
-    //Counter to iterate through 15 iterations
+    // Counter to iterate through 15 iterations
     int counter = 1;
     while (counter <= 15)
     {
@@ -103,16 +106,16 @@ int bisection(int coefficient[], int degree, float start, float end, float switc
             function += (coefficient[j] * (pow(mid, j)));
         }
 
-        //Prints values to terminal rounded off to 4 decimal spaces
-        printf("%d \t| %.4f \t| %.4f \t| (%.4f,%.4f)\t|\n",counter,mid,function,start,end);
+        // Prints values to terminal rounded off to 4 decimal spaces
+        printf("%d \t| %.4f \t| %.4f \t| (%.4f,%.4f)\t|\n", counter, mid, function, start, end);
 
-        //Case if the value of f(mid)==0, ie the root of the eq is mid
+        // Case if the value of f(mid)==0, ie the root of the eq is mid
         if (function == 0)
         {
             printf("The root of the given equation is: %d", mid);
         }
 
-        //Case if the value of f(mid)>0, hence switch mid with start or end
+        // Case if the value of f(mid)>0, hence switch mid with start or end
         else if (function > 0)
         {
             if (switcher == 1)
@@ -123,9 +126,9 @@ int bisection(int coefficient[], int degree, float start, float end, float switc
             {
                 end = mid;
             }
-        }   
+        }
 
-        //Case if the value of f(mid)<0, hence switch mid with start or end
+        // Case if the value of f(mid)<0, hence switch mid with start or end
         else if (function < 0)
         {
             if (switcher == 1)
