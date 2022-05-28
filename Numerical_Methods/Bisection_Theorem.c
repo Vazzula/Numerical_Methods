@@ -5,6 +5,7 @@
 
 float interval(int coefficient[], int degree, float *start, float *end);
 int bisection(int coefficient[], int degree, float start, float end, float switcher);
+float function_return(int coefficient[],int degree,int num);
 
 int main()
 {
@@ -64,20 +65,15 @@ float interval(int coefficient[], int degree, float *start, float *end)
     // Calculation of the solutions of polynomials between -index and index
     for (int i = (-index); i <= index; i++)
     {
-        sum = 0;
-        for (int j = degree; j >= 0; j--)
-        {
-            sum += (coefficient[j] * (pow(i, j)));
-        }
-        solution[i + index] = sum;
+        solution[i+index]=function_return(coefficient,degree,i);
     }
 
     for (int i = 0; i < (2 * index) + 1; i++)
     {
         if (solution[i] * solution[i + 1] < 0)
         {
-            *start = (i - 10);
-            *end = (i - 9);
+            *start = (i - index);
+            *end = (i - (index-1));
 
             // Returns a value for switcher
             if (solution[i] < 0)
@@ -143,4 +139,15 @@ int bisection(int coefficient[], int degree, float start, float end, float switc
         counter++;
     }
     return 0;
+}
+
+
+float function_return(int coefficient[],int degree,int num)
+{
+    float sum = 0;
+    for (int j = degree; j >= 0; j--)
+    {
+        sum += (coefficient[j] * (pow(num, j)));
+    }
+    return sum;
 }
